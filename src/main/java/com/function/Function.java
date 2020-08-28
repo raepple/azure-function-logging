@@ -13,6 +13,7 @@ import java.util.Optional;
 
 // Import log4j classes.
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Level;
 
@@ -32,21 +33,25 @@ public class Function {
                 authLevel = AuthorizationLevel.ANONYMOUS)
                 HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
-                
-        logger.error("Error log event from Log4j");
-        logger.trace("Trace log event from Log4j");
-        logger.log(AUDIT, "Audit log event from Log4j");
 
-        context.getLogger().info("Info log event from execution context logger");
+        String invocationId = context.getInvocationId();
+
+        // Setting invocation id to Log4j context for correlation of execution context logs and log4j logs in AI
+        ThreadContext.put("InvocationId", invocationId);
 
         // Parse query parameter
         final String query = request.getQueryParameters().get("name");
         final String name = request.getBody().orElse(query);
-
+   
+        context.getLogger().info("Info log event from execution context logger, InvocationID: " + invocationId);
+        
         if (name == null) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
         } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
+            logger.error("Error log event from Log4j. Name: " + name + ", InvocationID: " + invocationId);
+            logger.trace("Trace log event from Log4j. Name: " + name + ", InvocationID: " + invocationId);
+            logger.log(AUDIT, "Audit log event from Log4j. Name: " + name + ", InvocationID: " + invocationId);           
+            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name + " (InvocationID: " + invocationId + ")").build();
         }
     }
 }

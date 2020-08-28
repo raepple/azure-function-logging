@@ -1,20 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Configuration packages="com.microsoft.applicationinsights.log4j.v2">
     <CustomLevels>
         <CustomLevel name="AUDIT" intLevel="150" />
     </CustomLevels>
     <Appenders>
-        <ApplicationInsightsAppender name="aiAppender" instrumentationKey="<*** your AI instrumentation key ***" />
-        <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout
-                pattern="%msg%n" />
-        </Console>
+        <ApplicationInsightsAppender name="aiAppender" instrumentationKey="ed81746f-aee4-4a8e-8342-f58290c9550b" />
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <!-- Only events at AUDIT level or more specific are sent to the AI appender -->
-            <AppenderRef ref="aiAppender" level="AUDIT"/>
-            <AppenderRef ref="console"/>
+            <AppenderRef ref="aiAppender"/>
         </Root>
     </Loggers>
 </Configuration>

@@ -12,6 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <log4j.version>2.13.3</log4j.version>
         <azure.functions.maven.plugin.version>1.6.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>1.3.1</azure.functions.java.library.version>
         <functionAppName>myFunction-log4j</functionAppName>
@@ -50,14 +51,14 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.13.3</version>
+            <version>${log4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.13.3</version>
-        </dependency>
+            <version>${log4j.version}</version>
+        </dependency>    
 
     </dependencies>
 
